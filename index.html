@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, sans-serif;
+    }
+
+    body{
+      background:#f4f6f9;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+
+    .container{
+      background:white;
+      padding:30px;
+      width:400px;
+      border-radius:12px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    h1{
+      text-align:center;
+      margin-bottom:20px;
+      color:#333;
+    }
+
+    label{
+      display:block;
+      margin-top:12px;
+      margin-bottom:5px;
+      font-weight:bold;
+    }
+
+    input{
+      width:100%;
+      padding:10px;
+      border:1px solid #ccc;
+      border-radius:6px;
+    }
+
+    button{
+      width:100%;
+      padding:12px;
+      margin-top:20px;
+      background:#0078D7;
+      color:white;
+      border:none;
+      border-radius:6px;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    button:hover{
+      background:#005bb5;
+    }
+
+    #message{
+      text-align:center;
+      margin-top:15px;
+      font-weight:bold;
+      color:green;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Cloud Attendance System</h1>
+
+  <form id="attendanceForm">
+
+    <label>Student ID</label>
+    <input type="text" id="studentId" placeholder="Enter Student ID" required>
+
+    <label>Student Name</label>
+    <input type="text" id="studentName" placeholder="Enter Student Name" required>
+
+    <label>Department</label>
+    <input type="text" id="department" placeholder="Enter Department" required>
+
+    <button type="submit">Mark Attendance</button>
+
+  </form>
+
+  <p id="message"></p>
+
+</div>
+
+<script>
+
+document.getElementById("attendanceForm")
+.addEventListener("submit", function(event){
+
+    event.preventDefault();
+
+    let studentId =
+      document.getElementById("studentId").value;
+
+    let studentName =
+      document.getElementById("studentName").value;
+
+    let department =
+      document.getElementById("department").value;
+
+    google.script.run
+      .withSuccessHandler(function(response){
+
+          document.getElementById("message")
+            .innerHTML = response;
+
+          document.getElementById("attendanceForm")
+            .reset();
+
+      })
+      .saveAttendance(
+          studentId,
+          studentName,
+          department
+      );
+
+});
+
+</script>
+
+</body>
+</html>
